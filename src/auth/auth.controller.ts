@@ -5,6 +5,7 @@ import {
   UseGuards,
   Get,
   Request,
+  Delete,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -29,5 +30,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Delete('withdraw')
+  @UseGuards(JwtAuthGuard)
+  async deleteAccount(@Request() req) {
+    await this.authService.deleteAccount(req.user.sub);
+    return { message: '회원 탈퇴가 완료되었습니다.' };
   }
 }

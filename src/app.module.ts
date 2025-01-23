@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { User } from './users/entities/user.entity';
+import { OAuthCredential } from './users/entities/oauth-credential.entity';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { UsersModule } from './users/users.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [User, OAuthCredential],
         synchronize: process.env.NODE_ENV !== 'production',
         logging: configService.get('LOG_LEVEL') === 'debug',
       }),
